@@ -1,0 +1,27 @@
+{
+
+  "description": "Timetable helper",
+  "manifest_version": 3,
+  "name": "StrathHelper",
+  "version": "1.0",
+  "homepage_url": "https://strath.tech",
+  "icons": {
+  },
+
+  "permissions": [
+    "activeTab",
+    "scripting"
+  ],
+
+  "action": {
+    "default_title": "StrathHelper",
+    "default_popup": "popup/popup.html"
+  },
+
+  "content_scripts": [
+    {
+      "matches": ["https://cts.strath.ac.uk/Scientia/live2223sws/showtimetable.aspx"],
+      "js": ["webextension-polyfill/browser-polyfill.js", "content_scripts/export-ics.js"]
+    }
+  ]
+}

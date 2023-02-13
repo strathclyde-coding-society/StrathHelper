@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="popup.css" />
+</head>
+
+<body class="cool-border">
+    <div id="popup-content-wrong-page">
+        <h2>StrathHelper</h2>
+        <h3>Get started by visiting the <a href="https://cts.strath.ac.uk/Scientia/live2223sws/default.aspx"
+                target="_blank">Strath Timetabling System</a>.</h3>
+    </div>
+    <div id="popup-content">
+        <h2>StrathHelper</h2>
+        <p>Click the button below to scrape the page into an .ics file to open with your preferred calendar program.</p>
+        <button id="export-ics">Export to ICS</button>
+    </div>
+
+    <script src="/webextension-polyfill/browser-polyfill.js"></script>
+    <script src="popup.js" type="module"></script>
+</body>
+
+</html>
