@@ -5,7 +5,6 @@ module.exports = {
     entry: {
         'popup/popup': path.resolve(__dirname, 'src', 'popup', 'popup.js'),
         'content_scripts/export-ics': path.resolve(__dirname, 'src', 'content_scripts', 'export-ics.js'),
-        // 'assests/logo': path.resolve(__dirname, 'src', 'assests', 'logo.png'),
     },
     devtool : 'source-map',
     output: {
