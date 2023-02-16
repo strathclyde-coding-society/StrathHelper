@@ -105,7 +105,26 @@ function exportICS() {
     calendar = calendar.replace(/(.{75})(?!\n)/g, "$1\r\n ");
 
     console.log(calendar);
-    window.open("data:text/calendar;charset=utf8," + encodeURIComponent(calendar));
+    // window.open("data:text/calendar;charset=utf8," + encodeURIComponent(calendar));
+
+    // https://stackoverflow.com/questions/3916191/download-data-url-file
+    function downloadURI(uri, name) {
+        var link = document.createElement("a");
+        link.download = name;
+        link.href = uri;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        delete link;
+      }
+    
+    //List of regex of elements to extract, can modify easily by removing or adding regexs
+    let regexs = [/[a-z A-Z]*[\/] Year [\d] /, /[\d]{2}\/[\d]{2}/]
+    let filename ="";
+    regexs.forEach(regex=>{
+        filename+=document.getElementsByClassName("header-3-0-5")[0].innerHTML.match(regex)[0]
+    })
+    downloadURI("data:text/calendar;charset=utf8," + encodeURIComponent(calendar),filename+".ics"); 
 }
 
 console.log("export-ics.js loaded");
