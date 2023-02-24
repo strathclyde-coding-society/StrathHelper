@@ -132,7 +132,12 @@ function injectSelector() {
     let mouseOver = false, highlightState = false;
 
     document.querySelectorAll('.object-cell-border').forEach(cell => {
-        cell.classList.add('selected-cell');
+        if (cell.children[0].children[1].children[0].children[1].innerText=="Lecture"){
+            cell.classList.add('selected-cell');
+        }
+        else{
+            cell.classList.add('unselected-cell');
+        }
 
         const toggle = () => {
             cell.classList.toggle('selected-cell');
