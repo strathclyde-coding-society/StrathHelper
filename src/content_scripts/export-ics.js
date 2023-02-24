@@ -168,15 +168,12 @@ function injectSelector() {
 let injectedSelector = false;
 
 console.log("export-ics.js loaded");
+injectSelector();
+console.log("Event selector loaded");
 browser.runtime.onMessage.addListener((message) => {
     if (message.command === "exportICS") {
         console.log("Exporting...");
         exportICS();
-    } else if (message.command === "injectSelector") {
-        if (injectedSelector) return;
-        console.log("Injecting selector...");
-        injectSelector();
-        injectedSelector = true;
     } else {
         console.error("Unknown command: " + message.command);
     }

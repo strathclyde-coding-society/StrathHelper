@@ -21,5 +21,5 @@
 }
 
 .unselected-cell:not(#fakeId):hover  {
-    background-color: #c4ffc4;
+    background-color: #f0b4b4;
 }

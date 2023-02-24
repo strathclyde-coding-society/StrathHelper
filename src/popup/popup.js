@@ -12,7 +12,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     } else {
         document.getElementById("popup-content").style.display = "none";
     }
-    await browser.tabs.sendMessage(tabId, { command: "injectSelector" });
 });
 
 document.addEventListener('pagehide', () => {
