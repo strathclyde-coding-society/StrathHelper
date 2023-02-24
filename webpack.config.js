@@ -6,7 +6,7 @@ module.exports = {
         'popup/popup': path.resolve(__dirname, 'src', 'popup', 'popup.js'),
         'content_scripts/export-ics': path.resolve(__dirname, 'src', 'content_scripts', 'export-ics.js'),
     },
-    devtool : 'source-map',
+    devtool : 'inline-source-map',
     output: {
         path: path.resolve(__dirname, 'dist'),
         filename: '[name].js'
@@ -18,7 +18,8 @@ module.exports = {
                 { from: 'src/assests/logo.png', to: 'assests/logo.png' },
                 { from: 'src/popup/popup.css', to: 'popup/popup.css' },
                 { from: 'src/manifest.json', to: 'manifest.json' },
-                { from: 'node_modules/webextension-polyfill/dist/browser-polyfill.js', to: 'webextension-polyfill/browser-polyfill.js' }
+                { from: 'node_modules/webextension-polyfill/dist/browser-polyfill.js', to: 'webextension-polyfill/browser-polyfill.js' },
+                { from: 'src/page/selector.css', to: 'page/selector.css' }
             ]
         })
     ]

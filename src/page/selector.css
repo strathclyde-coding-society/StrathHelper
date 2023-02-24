@@ -1,0 +1,25 @@
+.object-cell-border {
+    padding: 2pt;
+}
+
+.object-cell-args {
+    background: none !important;
+}
+
+.selected-cell:not(#fakeId) {
+    cursor:pointer;
+    background-color: #c4d9ff;
+}
+
+.selected-cell:not(#fakeId):hover{
+    background-color: #aec5f0;
+}
+
+.unselected-cell:not(#fakeId) {
+    cursor:pointer;
+    background-color: #c2c2c2;
+}
+
+.unselected-cell:not(#fakeId):hover  {
+    background-color: #aaaaaa;
+}

@@ -26,7 +26,8 @@
   "content_scripts": [
     {
       "matches": ["https://cts.strath.ac.uk/Scientia/live2223sws/showtimetable.aspx"],
-      "js": ["webextension-polyfill/browser-polyfill.js", "content_scripts/export-ics.js"]
+      "js": ["webextension-polyfill/browser-polyfill.js", "content_scripts/export-ics.js"],
+      "css": ["page/selector.css"]
     }
   ]
 }

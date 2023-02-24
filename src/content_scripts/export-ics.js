@@ -16,7 +16,7 @@ function exportICS() {
         return newTime + "Z";
     }
 
-    let events = document.querySelectorAll('.object-cell-border');
+    let events = document.querySelectorAll('.selected-cell');
     events = Array.from(events).map(event => {
         let tds = event.querySelectorAll('td');
         let weeksText = tds[4].innerText;
@@ -41,6 +41,7 @@ function exportICS() {
             prevRow = prevRow.previousElementSibling;
         }
 
+        // Summing up the sum of the colspans of the cells before which tells us what column the event starts in.
         let siblings = [...event.parentNode.children].filter(it => it.classList.contains("cell-border") || it.classList.contains("object-cell-border"));
         let index = siblings.indexOf(event);
         let siblingsBefore = siblings.slice(0, index);
@@ -115,7 +116,6 @@ function exportICS() {
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
-        delete link;
       }
     
     //List of regex of elements to extract, can modify easily by removing or adding regexs
@@ -127,11 +127,51 @@ function exportICS() {
     downloadURI("data:text/calendar;charset=utf8," + encodeURIComponent(calendar),filename+".ics"); 
 }
 
+function injectSelector() {
+    let grid = document.querySelector('.grid-border-args');
+    let mouseOver = false, highlightState = false;
+
+    document.querySelectorAll('.object-cell-border').forEach(cell => {
+        cell.classList.add('selected-cell');
+
+        const toggle = () => {
+            cell.classList.toggle('selected-cell');
+            cell.classList.toggle('unselected-cell');
+        };
+
+        cell.addEventListener('mousedown', () => {
+            toggle();
+            mouseOver = true;
+            state = cell.classList.contains('selected-cell');
+
+            grid.style.userSelect = 'none';
+        });
+
+        cell.addEventListener('mouseover', () => {
+            if (mouseOver && state !== cell.classList.contains('selected-cell')) {
+                toggle();
+            }
+        });
+
+    });
+    grid.addEventListener('mouseup', () => {
+        mouseOver = false;
+        grid.style.userSelect = 'auto';
+    });
+}
+
+let injectedSelector = false;
+
 console.log("export-ics.js loaded");
 browser.runtime.onMessage.addListener((message) => {
     if (message.command === "exportICS") {
         console.log("Exporting...");
         exportICS();
+    } else if (message.command === "injectSelector") {
+        if (injectedSelector) return;
+        console.log("Injecting selector...");
+        injectSelector();
+        injectedSelector = true;
     } else {
         console.error("Unknown command: " + message.command);
     }
