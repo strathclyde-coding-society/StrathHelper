@@ -8,26 +8,27 @@
 
   "permissions": [
     "activeTab",
-    "scripting"
+    "storage"
   ],
 
   "action": {
-    "default_icon": "assests/logo.png",
+    "default_icon": "assets/logo.png",
     "default_title": "StrathHelper",
     "default_popup": "popup/popup.html"
   },
   
   "icons":{
-    "16":"assests/logo.png",
-    "48":"assests/logo.png",
-    "128":"assests/logo.png"
+    "16":"assets/logo.png",
+    "48":"assets/logo.png",
+    "128":"assets/logo.png"
 },
 
   "content_scripts": [
     {
       "matches": ["https://cts.strath.ac.uk/Scientia/live2223sws/showtimetable.aspx"],
       "js": ["webextension-polyfill/browser-polyfill.js", "content_scripts/export-ics.js"],
-      "css": ["page/selector.css"]
+      "css": ["page/selector.css"],
+      "web_accessible_resources": ["assets/logo.png"]
     }
   ]
 }

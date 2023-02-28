@@ -116,15 +116,15 @@ function exportICS() {
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
-      }
-    
+    }
+
     //List of regex of elements to extract, can modify easily by removing or adding regexs
     let regexs = [/[a-z A-Z]*[\/] Year [\d] /, /[\d]{2}\/[\d]{2}/]
-    let filename ="";
-    regexs.forEach(regex=>{
-        filename+=document.getElementsByClassName("header-3-0-5")[0].innerHTML.match(regex)[0]
+    let filename = "";
+    regexs.forEach(regex => {
+        filename += document.getElementsByClassName("header-3-0-5")[0].innerHTML.match(regex)[0]
     })
-    downloadURI("data:text/calendar;charset=utf8," + encodeURIComponent(calendar),filename+".ics"); 
+    downloadURI("data:text/calendar;charset=utf8," + encodeURIComponent(calendar), filename + ".ics");
 }
 
 function injectSelector() {
@@ -132,10 +132,9 @@ function injectSelector() {
     let mouseOver = false, highlightState = false;
 
     document.querySelectorAll('.object-cell-border').forEach(cell => {
-        if (cell.children[0].children[1].children[0].children[1].innerText=="Lecture"){
+        if (cell.children[0].children[1].children[0].children[1].innerText == "Lecture") {
             cell.classList.add('selected-cell');
-        }
-        else{
+        } else {
             cell.classList.add('unselected-cell');
         }
 
@@ -147,13 +146,13 @@ function injectSelector() {
         cell.addEventListener('mousedown', () => {
             toggle();
             mouseOver = true;
-            state = cell.classList.contains('selected-cell');
+            highlightState = cell.classList.contains('selected-cell');
 
             grid.style.userSelect = 'none';
         });
 
         cell.addEventListener('mouseover', () => {
-            if (mouseOver && state !== cell.classList.contains('selected-cell')) {
+            if (mouseOver && highlightState !== cell.classList.contains('selected-cell')) {
                 toggle();
             }
         });

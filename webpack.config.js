@@ -15,7 +15,7 @@ module.exports = {
         new CopyWebpackPlugin({
             patterns: [
                 { from: 'src/popup/popup.html', to: 'popup/popup.html' },
-                { from: 'src/assests/logo.png', to: 'assests/logo.png' },
+                { from: 'src/assets/logo.png', to: 'assets/logo.png' },
                 { from: 'src/popup/popup.css', to: 'popup/popup.css' },
                 { from: 'src/manifest.json', to: 'manifest.json' },
                 { from: 'node_modules/webextension-polyfill/dist/browser-polyfill.js', to: 'webextension-polyfill/browser-polyfill.js' },
