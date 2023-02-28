@@ -5,16 +5,27 @@
 <head>
     <meta charset="utf-8">
     <link rel="stylesheet" href="popup.css" />
+    <link rel="stylesheet" href="autocomplete.css" />
 </head>
 
 <body class="cool-border">
     <div id="popup-content-wrong-page">
-        <h2>StrathHelper</h2>
-        <h3>Get started by visiting the <a href="https://cts.strath.ac.uk/Scientia/live2223sws/default.aspx"
-                target="_blank">Strath Timetabling System</a>.</h3>
+        <header>
+            <img src="/assets/logo.png" alt="StrathHelper" />
+            <h2>StrathHelper</h2>
+        </header>
+        <h3>Find timetable for:</h3>
+        <main id="finder-form">
+            <label for="course">Course</label><input id="course" placeholder="Course" />
+            <label for"year">Year</label><input id="year" placeholder="Year" />
+        </main>
+        <button id="submit">View Timetable</button>
     </div>
     <div id="popup-content">
-        <h2>StrathHelper</h2>
+        <header>
+            <img src="/assets/logo.png" alt="StrathHelper" />
+            <h2>StrathHelper</h2>
+        </header>
         <p>Choose which events you would like to export then click the button below.</p>
         <button id="export-ics">Export to ICS</button>
     </div>

@@ -1,0 +1,60 @@
+ul[id^='autoComplete_list'] {
+    background: #1c2735;
+    border-radius: 0 0 8px 8px;
+    margin: 0;
+    padding: 0;
+    border: 1px solid #666;
+    border-top: none;
+    max-height: 150px;
+    width: 65%;
+    overflow-y: scroll;
+    position:fixed;
+    z-index: 999;
+}
+
+/* scrollbar */
+
+ul[id^='autoComplete_list']::-webkit-scrollbar {
+    width: 6px;
+}
+
+ul[id^='autoComplete_list']::-webkit-scrollbar-track {
+    background: #1c2735;
+}
+
+ul[id^='autoComplete_list']::-webkit-scrollbar-thumb {
+    background: #52657c;
+    border-radius: 8px;
+    margin: 2px;
+}
+
+ul[id^='autoComplete_list']::-webkit-scrollbar-thumb:hover {
+    background: #52657c;
+}
+
+
+li[id^='autoComplete_result']:last-child {
+    border-bottom: none;
+    border-radius: 0 0 8px 8px;
+}
+
+li[id^='autoComplete_result'] {
+    padding: 8px;
+    list-style-type: none;
+    border-bottom: 1px solid #666;
+    color: #e0e0e0;
+    margin: 0;
+    cursor: pointer;
+    font-size: 13px;
+}
+
+li[id^='autoComplete_result']:hover {
+    background: #172331;
+}
+
+mark {
+    background: transparent;
+    color: #e0e0e0;
+    text-decoration: underline;
+    text-decoration-color: #52657c;
+}

@@ -12,7 +12,7 @@
 }
 
 html, body {
-    height: 250px;
+    height: 350px;
     width: 400px;
     margin: 0;
     padding: 0;
@@ -38,8 +38,36 @@ h2 {
 }
 
 #popup-content-wrong-page {
-    margin: 20px;
+    height: 100%;
+    width: 100%;
 }
+
+header {
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    align-items: center;
+    gap: 10px;
+    padding: 5px;
+}
+
+header>img {
+    width: 32px;
+    height: 32px;
+}
+
+header>h2 {
+    margin: 0;
+}
+
+input {
+    padding: 8px;
+    border: 1px solid #666;
+    border-radius: 4px;
+    background-color: #172331;
+    color: #e0e0e0;
+}
+
 
 @keyframes background-move {
     0% {
@@ -88,4 +116,23 @@ button {
 
 button:hover {
     background-position: 30% 0;
+}
+
+#finder-form {
+    display: grid;
+    grid-template-columns: 25fr 75fr;
+    grid-auto-rows: auto;
+    grid-gap: 10px;
+}
+
+#course, #year {
+    width: 100%;
+}
+
+#submit {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    margin: 40px;
+    width: 140px;
 }

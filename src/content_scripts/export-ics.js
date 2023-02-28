@@ -164,16 +164,22 @@ function injectSelector() {
     });
 }
 
-let injectedSelector = false;
-
 console.log("export-ics.js loaded");
-injectSelector();
-console.log("Event selector loaded");
-browser.runtime.onMessage.addListener((message) => {
-    if (message.command === "exportICS") {
-        console.log("Exporting...");
-        exportICS();
-    } else {
-        console.error("Unknown command: " + message.command);
-    }
-});
+
+(async () => {
+    let timetable = await browser.storage.local.get("timetable");
+
+    if (timetable.timetable) {
+        document.documentElement.innerHTML = timetable.timetable;
+        await browser.storage.local.remove("timetable");
+    } 
+    injectSelector();
+    browser.runtime.onMessage.addListener((message) => {
+        if (message.command === "exportICS") {
+            console.log("Exporting...");
+            exportICS();
+        } else {
+            console.error("Unknown command: " + message.command);
+        }
+    });
+})();

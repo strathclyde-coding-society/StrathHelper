@@ -18,8 +18,8 @@ module.exports = {
                 { from: 'src/assets/logo.png', to: 'assets/logo.png' },
                 { from: 'src/popup/popup.css', to: 'popup/popup.css' },
                 { from: 'src/manifest.json', to: 'manifest.json' },
-                { from: 'node_modules/webextension-polyfill/dist/browser-polyfill.js', to: 'webextension-polyfill/browser-polyfill.js' },
-                { from: 'src/page/selector.css', to: 'page/selector.css' }
+                { from: 'src/page/selector.css', to: 'page/selector.css' },
+                { from: 'src/popup/autocomplete.css', to: 'popup/autocomplete.css' },
             ]
         })
     ]
