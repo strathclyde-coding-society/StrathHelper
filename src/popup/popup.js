@@ -113,7 +113,6 @@ async function fetchCourseList() {
         .then(t => new DOMParser().parseFromString(t, "text/html"));
 
     viewstate = doc.getElementById("__VIEWSTATE").value;
-    globalViewState = viewstate;
 
     let courseList = [...doc.querySelector("#dlObject").children]
         .map(c => ({
