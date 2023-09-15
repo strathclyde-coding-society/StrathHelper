@@ -1,3 +1,29 @@
+const INJECTED_HELP = `<div id="injected" style="
+align-items: center;
+margin:20px;
+padding: 20px;
+font-family: &quot;Source Sans Pro&quot;, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif;
+display: flex;
+gap: 10px;
+color: #fff;
+font-size: 1rem;
+line-height: 1.35;
+border-style: none;
+outline: none;
+padding: 0.8em 1em;
+border: 0.25em solid transparent;
+background-image: linear-gradient(#0b1725, #0b1725),
+    linear-gradient(120deg, #f09 0%, rgb(0, 98, 190) 50%, #f09 100%);
+background-origin: border-box;
+background-clip: padding-box, border-box;
+background-size: 200% 100%;
+background-position: 100% 0;
+transition: background-position 0.8s ease-in-out;
+">
+<img src="https://github.com/strathclyde-coding-society/StrathHelper/blob/main/src/assets/logo.png?raw=true" style="height: 30px;width: 30px;/* display: inline; *//* vertical-align: middle; */"><span> Help: Click and drag to select modules to export. Blue modules will be included in the calendar file. Then select the extension and select "Export ICS".
+</span>
+</div>`;
+
 function exportICS() {
     // How do I create a GUID / UUID?
     // https://stackoverflow.com/a/2117523
@@ -128,6 +154,7 @@ function exportICS() {
 }
 
 function injectSelector() {
+    document.querySelector(".header-border-args").insertAdjacentHTML('afterend', INJECTED_HELP);
     let grid = document.querySelector('.grid-border-args');
     let mouseOver = false, highlightState = false;
 

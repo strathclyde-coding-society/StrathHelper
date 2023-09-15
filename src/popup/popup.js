@@ -1,13 +1,46 @@
 import autoComplete from "@tarekraafat/autocomplete.js";
-import browser from "webextension-polyfill";
+import browser, { permissions } from "webextension-polyfill";
 
 let tabId;
 let yearAutoComplete;
 let semesterAutoComplete;
 let courseCode;
 let semester;
+let html;
 
-document.addEventListener('DOMContentLoaded', async () => {
+async function grantPermission() {
+    console.log("grant permission");
+    let permission_url = "https://cts.strath.ac.uk/Scientia/live2324sws/default.aspx";
+    let perm = {
+        origins: [permission_url],
+        permissions: ["webRequest"]
+    };
+    if (await browser.permissions.request(perm)) {
+        document.querySelector('body').innerHTML = html;
+        contentLoaded();
+    }
+}
+
+async function contentLoaded() {
+    let permission_url = "https://cts.strath.ac.uk/Scientia/live2324sws/default.aspx";
+    let perm = {
+        origins: [permission_url],
+        permissions: ["webRequest"]
+    };
+
+    if (!await browser.permissions.contains(perm)) {
+        html = document.querySelector('body').innerHTML;
+        document.querySelector('body').innerHTML = `
+                <div>
+                    <h2>Access to the Strathclyde timetable service is required.</h2>
+                    <button class="cool-border" id="grantpermission">Grant permission</button>
+                </div>
+            `;
+
+        document.querySelector("#grantpermission").addEventListener("click", () => grantPermission());
+        return;
+    }
+
     document.getElementsByTagName('body')[0].style.backgroundPosition = '0% 0';
 
     let tab = (await browser.tabs.query({ active: true, currentWindow: true }))[0];
@@ -25,7 +58,9 @@ document.addEventListener('DOMContentLoaded', async () => {
             await openTimetable();
         });
     }
-});
+}
+
+document.addEventListener('DOMContentLoaded', contentLoaded);
 
 async function setupCourseList() {
     var config = {
@@ -129,6 +164,7 @@ async function fetchCourseList() {
     }
 
     let url = "https://cts.strath.ac.uk/Scientia/live2324sws/default.aspx";
+
     let doc = await fetch(url)
         .then(r => r.text())
         .then(t => new DOMParser().parseFromString(t, "text/html"));
