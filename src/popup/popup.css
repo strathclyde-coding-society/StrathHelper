@@ -125,7 +125,7 @@ button:hover {
     grid-gap: 10px;
 }
 
-#course, #year {
+#course, #year, #semester {
     width: 100%;
 }
 

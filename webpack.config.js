@@ -20,6 +20,10 @@ module.exports = {
                 { from: 'src/manifest.json', to: 'manifest.json' },
                 { from: 'src/page/selector.css', to: 'page/selector.css' },
                 { from: 'src/popup/autocomplete.css', to: 'popup/autocomplete.css' },
+                {
+                    from: 'node_modules/webextension-polyfill/dist/browser-polyfill.min.js', 
+                    to: 'webextension-polyfill/browser-polyfill.js',  
+                }
             ]
         })
     ]

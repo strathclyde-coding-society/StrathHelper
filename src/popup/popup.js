@@ -3,7 +3,9 @@ import browser from "webextension-polyfill";
 
 let tabId;
 let yearAutoComplete;
+let semesterAutoComplete;
 let courseCode;
+let semester;
 
 document.addEventListener('DOMContentLoaded', async () => {
     document.getElementsByTagName('body')[0].style.backgroundPosition = '0% 0';
@@ -11,12 +13,13 @@ document.addEventListener('DOMContentLoaded', async () => {
     let tab = (await browser.tabs.query({ active: true, currentWindow: true }))[0];
     let url = tab.url;
     tabId = tab.id;
-    if (/^https?:\/\/cts.strath.ac.uk\/Scientia\/live2223sws\/showtimetable.aspx/.test(url)) {
+    if (/^https?:\/\/cts.strath.ac.uk\/Scientia\/live2324sws\/showtimetable.aspx/.test(url)) {
         document.getElementById("popup-content-wrong-page").style.display = "none";
         document.getElementById("export-ics").addEventListener("click", beginExportICS);
     } else {
         document.getElementById("popup-content").style.display = "none";
         await setupYearList();
+        await setupSemesterList();
         await setupCourseList();
         document.getElementById("submit").addEventListener("click", async () => {
             await openTimetable();
@@ -76,11 +79,45 @@ async function setupYearList() {
     yearAutoComplete = new autoComplete(config);
 }
 
+async function setupSemesterList() {
+    let config = {
+        placeHolder: "Select a semester",
+        data: {
+            src: [],
+        },
+        resultItem: {
+            highlight: true,
+        },
+        resultsList: {
+            maxResults: 20,
+        },
+        selector: "#semester",
+        trigger: () => true,
+    };
+
+    semesterAutoComplete = new autoComplete(config);
+
+    let semesters = [{ code: 1, name: "Semester 1" }, { code: 2, name: "Semester 2" }, { code: 0, name: "Both semesters" }];
+    console.log(semesters);
+    semesterAutoComplete.data.src = semesters;
+    semesterAutoComplete.data.keys = ["name"];
+    document.querySelector("#semester").addEventListener("selection", (e) => {
+        document.querySelector("#semester").value = e.detail.selection.value.name;
+        semester = e.detail.selection.value.code;
+        console.log(semester);
+    });
+    document.querySelector("#semester").addEventListener("click", (e) => {
+        semesterAutoComplete.start();
+    });
+}
+
+
 document.addEventListener('pagehide', () => {
     document.getElementsByTagName('body')[0].style.backgroundPosition = '100% 0';
 });
 
 async function beginExportICS() {
+    console.log("sending message...");
     await browser.tabs.sendMessage(tabId, { command: "exportICS" });
     console.log("Sent message to content script");
 }
@@ -91,7 +128,7 @@ async function fetchCourseList() {
         return cached.courseList;
     }
 
-    let url = "https://cts.strath.ac.uk/Scientia/live2223sws/default.aspx";
+    let url = "https://cts.strath.ac.uk/Scientia/live2324sws/default.aspx";
     let doc = await fetch(url)
         .then(r => r.text())
         .then(t => new DOMParser().parseFromString(t, "text/html"));
@@ -100,12 +137,12 @@ async function fetchCourseList() {
     let eventvalidation = doc.getElementById("__EVENTVALIDATION").value;
     let eventtarget = "LinkBtn_programmesofstudy";
 
-    doc = await fetch("https://cts.strath.ac.uk/Scientia/live2223sws/default.aspx", {
+    doc = await fetch("https://cts.strath.ac.uk/Scientia/live2324sws/default.aspx", {
         "credentials": "include",
         "headers": {
             "Content-Type": "application/x-www-form-urlencoded",
         },
-        "referrer": "https://cts.strath.ac.uk/Scientia/live2223sws/default.aspx",
+        "referrer": "https://cts.strath.ac.uk/Scientia/live2324sws/default.aspx",
         "body": `__VIEWSTATE=${encodeURIComponent(viewstate)}&__EVENTVALIDATION=${encodeURIComponent(eventvalidation)}&__EVENTTARGET=${encodeURIComponent(eventtarget)}&__EVENTARGUMENT=&__LASTFOCUS=&LinkBtn_programmesofstudy=Programmes+of+Study`,
         "method": "POST",
     })
@@ -158,7 +195,7 @@ async function openTimetable() {
         document.getElementById("submit").innerText = "Please wait" + ".".repeat(i + 1);
     }, 500);
 
-    let url = "https://cts.strath.ac.uk/Scientia/live2223sws/default.aspx";
+    let url = "https://cts.strath.ac.uk/Scientia/live2324sws/default.aspx";
     let resp = await fetch(url);
     let doc = await resp.text().then(t => new DOMParser().parseFromString(t, "text/html"));
     console.log(doc);
@@ -169,15 +206,15 @@ async function openTimetable() {
     let eventtarget = "LinkBtn_programmesofstudy";
     let viewstategenerator = doc.getElementById("__VIEWSTATEGENERATOR").value;
 
-    resp = await fetch("https://cts.strath.ac.uk/Scientia/live2223sws/default.aspx", {
+    resp = await fetch("https://cts.strath.ac.uk/Scientia/live2324sws/default.aspx", {
         "credentials": "include",
         "headers": {
             "Content-Type": "application/x-www-form-urlencoded",
         },
-        "referrer": "https://cts.strath.ac.uk/Scientia/live2223sws/default.aspx",
+        "referrer": "https://cts.strath.ac.uk/Scientia/live2324sws/default.aspx",
         "body": `__VIEWSTATE=${encodeURIComponent(viewstate)}&__EVENTVALIDATION=${encodeURIComponent(eventvalidation)}\
-        &__EVENTTARGET=${encodeURIComponent(eventtarget)}&__EVENTARGUMENT=&__LASTFOCUS=&LinkBtn_programmesofstudy=Programmes+of+Study\
-        &__VIEWSTATEGENERATOR=${encodeURIComponent(viewstategenerator)}`,
+&__EVENTTARGET=${encodeURIComponent(eventtarget)}&__EVENTARGUMENT=&__LASTFOCUS=&LinkBtn_programmesofstudy=Programmes+of+Study\
+&__VIEWSTATEGENERATOR=${encodeURIComponent(viewstategenerator)}`,
         "method": "POST",
     });
     doc = await resp.text().then(t => new DOMParser().parseFromString(t, "text/html"));
@@ -188,16 +225,25 @@ async function openTimetable() {
     eventvalidation = doc.getElementById("__EVENTVALIDATION").value;
     viewstategenerator = doc.getElementById("__VIEWSTATEGENERATOR").value;
 
-    resp = await fetch("https://cts.strath.ac.uk/Scientia/live2223sws/default.aspx", {
+    let weeks;
+    if (semester == 0) {
+        weeks = "8;9;10;11;12;13;14;15;16;17;18;25;26;27;28;29;30;31;32;33;34;35";
+    } else if (semester == 1) {
+        weeks = "8;9;10;11;12;13;14;15;16;17;18";
+    } else if (semester == 2) {
+        weeks = "25;26;27;28;29;30;31;32;33;34;35";
+    }
+
+    resp = await fetch("https://cts.strath.ac.uk/Scientia/live2324sws/default.aspx", {
         "credentials": "include",
         "headers": {
             "Content-Type": "application/x-www-form-urlencoded",
         },
-        "referrer": "https://cts.strath.ac.uk/Scientia/live2223sws/default.aspx",
+        "referrer": "https://cts.strath.ac.uk/Scientia/live2324sws/default.aspx",
         "body": `__EVENTTARGET=&__EVENTARGUMENT=&__LASTFOCUS=&__VIEWSTATE=${encodeURIComponent(viewstate)}\
 &__VIEWSTATEGENERATOR=${encodeURIComponent(viewstategenerator)}&__EVENTVALIDATION=${encodeURIComponent(eventvalidation)}\
 &tLinkType=programmesofstudy&dlFilter=&tWildcard=&dlObject=${encodeURIComponent(courseCode)}\
-&lbWeeks=t&lbDays=1-5&dlPeriod=3-18&dlType=Individual%3Bswsurl%3BSWSCUST+Programme+of+Study+Individual\
+&lbWeeks=${weeks}&lbDays=1-5&dlPeriod=3-18&dlType=Individual%3Bswsurl%3BSWSCUST+Programme+of+Study+Individual\
 &bGetTimetable=View+Timetable`,
         "method": "POST",
     });
@@ -209,7 +255,7 @@ async function openTimetable() {
     clearInterval(timer);
 
     await browser.tabs.create({
-        url: "https://cts.strath.ac.uk/Scientia/live2223sws/showtimetable.aspx",
+        url: "https://cts.strath.ac.uk/Scientia/live2324sws/showtimetable.aspx",
         active: true,
     });
 
