@@ -6,8 +6,7 @@
   "homepage_url": "https://strath.tech",
   "permissions": [
     "activeTab",
-    "storage",
-    "webRequest"
+    "storage"
   ],
   "optional_permissions": ["webRequest"],
   "action": {
@@ -37,7 +36,7 @@
   "web_accessible_resources": [
     {
       "resources": ["assets/logo.png"],
-      "matches": ["https://cts.strath.ac.uk/Scientia/live2324sws/showtimetable.aspx"]
+      "matches": ["https://cts.strath.ac.uk/*"]
     }
   ],
   "host_permissions": [

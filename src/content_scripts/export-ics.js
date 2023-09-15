@@ -97,7 +97,7 @@ function exportICS() {
         calendar += "SUMMARY:" + event.module + ": " + event.type + "\r\n";
         calendar += "LOCATION:" + event.location + "\r\n";
 
-        let date = new Date('2022-09-20 09:00:00');
+        let date = new Date('2023-09-18 09:00:00');
         date.setTime(date.getTime() + (event.start) * 1000 * 60 * 60); // add start time
 
         let numDayOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].indexOf(event.day);
