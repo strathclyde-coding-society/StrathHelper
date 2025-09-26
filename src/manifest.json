@@ -22,7 +22,7 @@
   "content_scripts": [
     {
       "matches": [
-        "https://cts.strath.ac.uk/Scientia/live2324sws/showtimetable.aspx"
+        "https://cts.strath.ac.uk/Scientia/live2526sws/showtimetable.aspx"
       ],
       "js": [
         "webextension-polyfill/browser-polyfill.js",

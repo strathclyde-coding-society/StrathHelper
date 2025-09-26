@@ -10,7 +10,7 @@ let html;
 
 async function grantPermission() {
     console.log("grant permission");
-    let permission_url = "https://cts.strath.ac.uk/Scientia/live2324sws/default.aspx";
+    let permission_url = "https://cts.strath.ac.uk/Scientia/live2526sws/default.aspx";
     let perm = {
         origins: [permission_url],
         permissions: ["webRequest"]
@@ -22,7 +22,7 @@ async function grantPermission() {
 }
 
 async function contentLoaded() {
-    let permission_url = "https://cts.strath.ac.uk/Scientia/live2324sws/default.aspx";
+    let permission_url = "https://cts.strath.ac.uk/Scientia/live2526sws/default.aspx";
     let perm = {
         origins: [permission_url],
         permissions: ["webRequest"]
@@ -46,7 +46,7 @@ async function contentLoaded() {
     let tab = (await browser.tabs.query({ active: true, currentWindow: true }))[0];
     let url = tab.url;
     tabId = tab.id;
-    if (/^https?:\/\/cts.strath.ac.uk\/Scientia\/live2324sws\/showtimetable.aspx/.test(url)) {
+    if (/^https?:\/\/cts.strath.ac.uk\/Scientia\/live2526sws\/showtimetable.aspx/.test(url)) {
         document.getElementById("popup-content-wrong-page").style.display = "none";
         document.getElementById("export-ics").addEventListener("click", beginExportICS);
     } else {
@@ -163,7 +163,7 @@ async function fetchCourseList() {
         return cached.courseList;
     }
 
-    let url = "https://cts.strath.ac.uk/Scientia/live2324sws/default.aspx";
+    let url = "https://cts.strath.ac.uk/Scientia/live2526sws/default.aspx";
 
     let doc = await fetch(url)
         .then(r => r.text())
@@ -173,12 +173,12 @@ async function fetchCourseList() {
     let eventvalidation = doc.getElementById("__EVENTVALIDATION").value;
     let eventtarget = "LinkBtn_programmesofstudy";
 
-    doc = await fetch("https://cts.strath.ac.uk/Scientia/live2324sws/default.aspx", {
+    doc = await fetch("https://cts.strath.ac.uk/Scientia/live2526sws/default.aspx", {
         "credentials": "include",
         "headers": {
             "Content-Type": "application/x-www-form-urlencoded",
         },
-        "referrer": "https://cts.strath.ac.uk/Scientia/live2324sws/default.aspx",
+        "referrer": "https://cts.strath.ac.uk/Scientia/live2526sws/default.aspx",
         "body": `__VIEWSTATE=${encodeURIComponent(viewstate)}&__EVENTVALIDATION=${encodeURIComponent(eventvalidation)}&__EVENTTARGET=${encodeURIComponent(eventtarget)}&__EVENTARGUMENT=&__LASTFOCUS=&LinkBtn_programmesofstudy=Programmes+of+Study`,
         "method": "POST",
     })
@@ -231,7 +231,7 @@ async function openTimetable() {
         document.getElementById("submit").innerText = "Please wait" + ".".repeat(i + 1);
     }, 500);
 
-    let url = "https://cts.strath.ac.uk/Scientia/live2324sws/default.aspx";
+    let url = "https://cts.strath.ac.uk/Scientia/live2526sws/default.aspx";
     let resp = await fetch(url);
     let doc = await resp.text().then(t => new DOMParser().parseFromString(t, "text/html"));
     console.log(doc);
@@ -242,12 +242,12 @@ async function openTimetable() {
     let eventtarget = "LinkBtn_programmesofstudy";
     let viewstategenerator = doc.getElementById("__VIEWSTATEGENERATOR").value;
 
-    resp = await fetch("https://cts.strath.ac.uk/Scientia/live2324sws/default.aspx", {
+    resp = await fetch("https://cts.strath.ac.uk/Scientia/live2526sws/default.aspx", {
         "credentials": "include",
         "headers": {
             "Content-Type": "application/x-www-form-urlencoded",
         },
-        "referrer": "https://cts.strath.ac.uk/Scientia/live2324sws/default.aspx",
+        "referrer": "https://cts.strath.ac.uk/Scientia/live2526sws/default.aspx",
         "body": `__VIEWSTATE=${encodeURIComponent(viewstate)}&__EVENTVALIDATION=${encodeURIComponent(eventvalidation)}\
 &__EVENTTARGET=${encodeURIComponent(eventtarget)}&__EVENTARGUMENT=&__LASTFOCUS=&LinkBtn_programmesofstudy=Programmes+of+Study\
 &__VIEWSTATEGENERATOR=${encodeURIComponent(viewstategenerator)}`,
@@ -270,12 +270,12 @@ async function openTimetable() {
         weeks = "25;26;27;28;29;30;31;32;33;34;35";
     }
 
-    resp = await fetch("https://cts.strath.ac.uk/Scientia/live2324sws/default.aspx", {
+    resp = await fetch("https://cts.strath.ac.uk/Scientia/live2526sws/default.aspx", {
         "credentials": "include",
         "headers": {
             "Content-Type": "application/x-www-form-urlencoded",
         },
-        "referrer": "https://cts.strath.ac.uk/Scientia/live2324sws/default.aspx",
+        "referrer": "https://cts.strath.ac.uk/Scientia/live2526sws/default.aspx",
         "body": `__EVENTTARGET=&__EVENTARGUMENT=&__LASTFOCUS=&__VIEWSTATE=${encodeURIComponent(viewstate)}\
 &__VIEWSTATEGENERATOR=${encodeURIComponent(viewstategenerator)}&__EVENTVALIDATION=${encodeURIComponent(eventvalidation)}\
 &tLinkType=programmesofstudy&dlFilter=&tWildcard=&dlObject=${encodeURIComponent(courseCode)}\
@@ -291,7 +291,7 @@ async function openTimetable() {
     clearInterval(timer);
 
     await browser.tabs.create({
-        url: "https://cts.strath.ac.uk/Scientia/live2324sws/showtimetable.aspx",
+        url: "https://cts.strath.ac.uk/Scientia/live2526sws/showtimetable.aspx",
         active: true,
     });
 
