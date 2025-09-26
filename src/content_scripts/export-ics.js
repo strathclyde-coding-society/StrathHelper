@@ -147,7 +147,17 @@ function exportICS() {
     let regexs = [/[a-z A-Z]*[\/] Year [\d] /];
     let filename = "";
     regexs.forEach(regex => {
-        filename += document.getElementsByClassName("header-3-0-5")[0].innerHTML.match(regex)[0]
+        let program = document.getElementsByClassName("header-3-0-5");
+        if (program.length > 0) {
+            if (program[0].innerHTML.match(regex) != null) {
+                filename += program[0].innerHTML.match(regex)[0];
+            }
+            else {
+                filename = program[0].innerText;
+            }
+        } else {
+            filename = "timetable";
+        }
     })
     console.log("downloading");
     downloadURI("data:text/calendar;charset=utf8," + encodeURIComponent(calendar), filename + ".ics");
@@ -199,7 +209,7 @@ console.log("export-ics.js loaded");
     if (timetable.timetable) {
         document.documentElement.innerHTML = timetable.timetable;
         await browser.storage.local.remove("timetable");
-    } 
+    }
     injectSelector();
     browser.runtime.onMessage.addListener((message) => {
         if (message.command === "exportICS") {
